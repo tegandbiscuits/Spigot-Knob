@@ -1,8 +1,8 @@
 #!/bin/bash
-# v1.0.0
+# v1.0.1
 
-if [ -f config.conf ]; then
-  source config.conf
+if [ -f knob.conf ]; then
+  source knob.conf
 else
   echo "Missing config file."
   echo "Run config to continue"
@@ -10,12 +10,11 @@ else
 fi
 
 showHelp() {
-  printf "\n\tSpigot-Knob is a small bundle of commands to help run Spigot MC servers\n\n"
-  printf "\thelp / ?        Show this help screen\n"
+  printf "\n\tSpigot-Knob (v1.0.1) is a small bundle of commands to help run Spigot MC servers\n\n"
   printf "\tstart           Start the server in it's own screen\n"
   printf "\tstop            Stop the server gracefully (and stop the screen)\n"
   printf "\tkill            Kill the server & screen (unpreferred over stop)\n"
-  printf "\treload          Reload the server\n"
+  printf "\trestart         Reload the server\n"
   printf "\treload-plugins  Reloads the plugins and configuration\n"
   printf "\tsay             Say a message as the server\n"
   printf "\tsave            Saves your worlds\n"
@@ -23,6 +22,7 @@ showHelp() {
   printf "\tbackup-server   Backs up the whole server folder\n"
   printf "\tconfig          Runs the configure utility\n"
   printf "\tscreen          Change to the screen the server is on (will stop screen if quit)\n"
+  printf "\thelp / ?        Show this help screen\n"
 }
 
 
@@ -108,20 +108,6 @@ showScreen() {
 
 
 configScript() {
-  if [ -f CONFIG ]; then
-    printf "\n[WARNING]: file name 'CONFIG' already exists in this directory, do you want to overwrite it? (y/n): "
-    read
-    case $REPLY in
-      "y") printf "Will overwrite\n\n" ;;
-      "Y") printf "Will overwrite\n\n" ;;
-      "n") printf "Stopping\n\n" cancel ;;
-      "N") printf "Stopping\n\n" cancel ;;
-      *)
-        printf "\n\tPlease enter y or n\n"
-        configScript ;;
-    esac
-  fi
-
   spigotPath() { 
     printf "Please enter the absolute path for the folder Spigot is running in\n"
     read
@@ -227,16 +213,36 @@ configScript() {
     }
     checkConfig
 
-    printf "SPIGOTDIR=\"$SPIGOTDIR\"\n" > config.conf
-    printf "SPIGOTNAME=\"$SPIGOTNAME\"\n" >> config.conf
-    printf "SPIGOTFLAGS=\"$SPIGOTFLAGS\"\n" >> config.conf
-    printf "WORLDNAME=\"$WORLDNAME\"\n" >> config.conf
-    printf "BACKUPDIR=\"$BACKUPDIR\"\n" >> config.conf
-    printf "BACKUPDIR=\"$SHUTDOWNWAIT\"\n" >> config.conf
-    printf "SHUTDOWNMSG=\"$SHUTDOWNWAIT\"\n" >> config.conf
+    printf "SPIGOTDIR=\"$SPIGOTDIR\"\n" > knob.conf
+    printf "SPIGOTNAME=\"$SPIGOTNAME\"\n" >> knob.conf
+    printf "SPIGOTFLAGS=\"$SPIGOTFLAGS\"\n" >> knob.conf
+    printf "WORLDNAME=\"$WORLDNAME\"\n" >> knob.conf
+    printf "BACKUPDIR=\"$BACKUPDIR\"\n" >> knob.conf
+    printf "BACKUPDIR=\"$SHUTDOWNWAIT\"\n" >> knob.conf
+    printf "SHUTDOWNMSG=\"$SHUTDOWNWAIT\"\n" >> knob.conf
   }
 
-  runConfig
+  if [ -f knob.conf ]; then
+    printf "\n[WARNING]: file name 'knob.conf' already exists in this directory, do you want to overwrite it? (y/n): "
+    read
+    case $REPLY in
+      "y")
+        printf "Will overwrite\n\n"
+        runConfig ;;
+      "Y")
+        printf "Will overwrite\n\n"
+        runConfig ;;
+      "n")
+        printf "Stopping\n\n"
+        cancel ;;
+      "N")
+        printf "Stopping\n\n"
+        runConfig ;;
+      *)
+        printf "\n\tPlease enter y or n\n"
+        configScript ;;
+    esac
+  fi
 }
 
 case $1 in
