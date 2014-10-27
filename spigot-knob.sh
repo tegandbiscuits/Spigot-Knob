@@ -1,4 +1,5 @@
 #!/bin/bash
+# v1.0.0
 
 if [ -f config.conf ]; then
   source config.conf
@@ -9,7 +10,7 @@ else
 fi
 
 showHelp() {
-  printf "\n\tSpigot.sh is a small bundle of commands to help run Spigot MC servers\n\n"
+  printf "\n\tSpigot-Knob is a small bundle of commands to help run Spigot MC servers\n\n"
   printf "\thelp / ?        Show this help screen\n"
   printf "\tstart           Start the server in it's own screen\n"
   printf "\tstop            Stop the server gracefully (and stop the screen)\n"
@@ -258,7 +259,7 @@ case $1 in
   "backup-server")
     backupServer ;;
   "version")
-    echo "will show version" ;;
+    echo "will show version eventually" ;;
   "screen")
     showScreen ;;
   "config")
