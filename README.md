@@ -4,6 +4,7 @@ Spigot Knob is a bundle of bash scripts to help run a Spigot Minecraft server.
 #Usage
 To run the scripts, you need to have bash and screen installed.
 Download the script, and run config to build the config file. Your config file will be in the same directory as Spigot Knob (unless you change where it looks).
+If there's no config file (like on first run) it gets created and running config will ask if you want to overwrite it, and you probably will.
 
 #Commands
 `start` Starts the server in a detached screen named "spigot-server". Use `screen` to see the server running. You can't have more than one server running at a time (unless you want to modify the script).

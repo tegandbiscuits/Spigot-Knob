@@ -1,12 +1,12 @@
 #!/bin/bash
-# v1.0.1
+# v1.0.2
 
 if [ -f knob.conf ]; then
   source knob.conf
 else
-  echo "Missing config file."
-  echo "Run config to continue"
-  cancel
+  echo "Missing config file, so it was created"
+  echo "Run config to fill the settings"
+  touch knob.conf
 fi
 
 showHelp() {
@@ -237,7 +237,7 @@ configScript() {
         cancel ;;
       "N")
         printf "Stopping\n\n"
-        runConfig ;;
+        cancel ;;
       *)
         printf "\n\tPlease enter y or n\n"
         configScript ;;
