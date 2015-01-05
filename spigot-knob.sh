@@ -106,7 +106,6 @@ showScreen() {
   screen -r "spigot-server"
 }
 
-
 configScript() {
   spigotPath() { 
     printf "Please enter the absolute path for the folder Spigot is running in\n"
@@ -190,8 +189,10 @@ configScript() {
     spigotWorld
     backupPath
     shutdownTime
+    shutdownMsg
     
     checkConfig() {
+      echo
       echo "Spigot Path: $SPIGOTDIR"
       echo "Spigot File Name: $SPIGOTNAME"
       echo "Start Flags: $SPIGOTFLAGS"
@@ -218,8 +219,8 @@ configScript() {
     printf "SPIGOTFLAGS=\"$SPIGOTFLAGS\"\n" >> knob.conf
     printf "WORLDNAME=\"$WORLDNAME\"\n" >> knob.conf
     printf "BACKUPDIR=\"$BACKUPDIR\"\n" >> knob.conf
-    printf "BACKUPDIR=\"$SHUTDOWNWAIT\"\n" >> knob.conf
-    printf "SHUTDOWNMSG=\"$SHUTDOWNWAIT\"\n" >> knob.conf
+    printf "SHUTDOWNWAIT=\"$SHUTDOWNWAIT\"\n" >> knob.conf
+    printf "SHUTDOWNMESSAGE=\"$SHUTDOWNMESSAGE\"\n" >> knob.conf
   }
 
   if [ -f knob.conf ]; then
@@ -275,6 +276,7 @@ case $1 in
   "?")
     showHelp ;;
   *)
+    echo "Command not found"
     showHelp ;;
 esac
 
